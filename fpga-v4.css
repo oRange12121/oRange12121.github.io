@@ -1,0 +1,164 @@
+@charset "UTF-8";
+@media(max-width:480px){.fpga-page .site-header nav{gap:12px;font-size:9px;justify-content:space-between;width:100%}}
+/* A photographic hardware chapter, scoped away from the optics project. */
+.fpga-page{--accent:#f2bb83;--amber:#f2bb83;--muted:#9da9b3;--line:#303236;background:#0b0e12}
+.fpga-page .wrap{max-width:1480px}
+.fpga-page .site-header{background:#0b0e12ed}
+.fpga-page .site-header nav a[aria-current=page]{color:var(--accent)}
+.fpga-page p{line-height:1.8}
+.fpga-page h1,.fpga-page h2,.fpga-page h3{text-wrap:balance}
+.fpga-page .fpga-hero{grid-template-columns:1fr 1.12fr;gap:6%;padding-top:48px;padding-bottom:72px;min-height:720px;position:relative}
+.fpga-page .hero-copy{min-width:0}
+.fpga-page .hero-copy .back-link{font-size:12px;margin-bottom:34px}
+.fpga-page .hero-copy>.eyebrow{margin-bottom:24px;font-size:10px;letter-spacing:.1em}
+.fpga-page .hero-copy h1{font-size:clamp(56px,6.1vw,88px);font-weight:430;line-height:1.06;letter-spacing:-.055em;margin-bottom:26px}
+.fpga-page .hero-copy .intro-lead{font-size:clamp(17px,1.5vw,21px);line-height:1.55;color:#e0e4e7;max-width:510px}
+.fpga-page .hero-copy>p:not(.intro-lead){font-size:14px;max-width:455px;margin-bottom:24px}
+.fpga-page .award-line{display:flex;align-items:center;gap:13px;margin:25px 0 29px;padding:15px 0;border-top:1px solid #39332c;max-width:410px}
+.fpga-page .award-line>span{font-size:35px;font-weight:300;line-height:1;color:var(--accent)}
+.fpga-page .award-line strong{display:block;font-size:14px;font-weight:500;color:var(--accent);line-height:1.5}
+.fpga-page .award-line small{display:block;margin-top:3px;font:10px/1.7 var(--mono);color:#8997a0}
+.fpga-page .actions{gap:24px;margin-top:20px;flex-wrap:wrap}
+.fpga-page .action-primary{display:flex;gap:25px;align-items:center;background:var(--accent);color:#20180f;border-radius:2px;min-height:46px;transition:background .2s}
+.fpga-page .action-primary:hover{background:#ffd5a8}
+.fpga-page .underlined{font-size:12px}
+.fpga-page .hardware-hero{min-width:0;background:radial-gradient(ellipse at 50% 45%,#402f1e22,transparent 70%);padding:0;border:0;align-self:center;margin-top:20px}
+.fpga-page .instrument-label{font-size:10px;letter-spacing:.06em;margin:0 0 17px;gap:12px}
+.fpga-page .hero-photo{transform:none;border:0;background:#06090b;box-shadow:0 25px 65px #0005;position:relative}
+.fpga-page .hero-photo::before,.fpga-page .hero-photo::after{content:"";position:absolute;width:22px;height:22px;pointer-events:none;z-index:1;border-color:var(--accent);border-style:solid}
+.fpga-page .hero-photo::before{top:-5px;left:-5px;border-width:1px 0 0 1px}
+.fpga-page .hero-photo::after{right:-5px;bottom:-5px;border-width:0 1px 1px 0}
+.fpga-page .hero-photo img{width:100%;height:auto;aspect-ratio:1.61;object-fit:contain;background:#070a0d}
+.fpga-page .hero-capture-caption{display:flex;justify-content:space-between;align-items:center;gap:18px;font:10px/1.7 var(--mono);color:#9fa9ae;padding:16px 0 19px}
+.fpga-page .hero-capture-caption a{font:22px/1 var(--sans);color:var(--accent);padding:5px}
+.fpga-page .capture-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fpga-page .capture-choices button{min-width:0;display:grid;grid-template-columns:50px 1fr;align-items:center;gap:10px;border:1px solid #35383b;background:transparent;text-align:left;padding:8px;color:#99a6ae;position:relative;transition:border-color .2s,background .2s}
+.fpga-page .capture-choices button:hover,.fpga-page .capture-choices button.active{border-color:#c49362;background:#251e17;color:#f1d1ad}
+.fpga-page .capture-choices img{width:50px;height:43px;object-fit:cover;filter:saturate(.55)}
+.fpga-page .capture-choices button.active img{filter:none}
+.fpga-page .capture-choices span{font-size:11px;line-height:1.45}
+.fpga-page .capture-choices i{display:none}
+.fpga-page .technology-strip{background:#141619;border-color:#343337;font-size:10px;padding-top:22px;padding-bottom:22px;letter-spacing:.06em}
+.fpga-page .section{padding-top:92px;padding-bottom:92px}
+.fpga-page .section-label{font-size:10px;margin-bottom:35px}
+.fpga-page .split-copy{grid-template-columns:1.05fr 1fr;gap:8%}
+.fpga-page .split-copy h2,.fpga-page .decision-layout h2,.fpga-page .resource-layout h2{font-size:clamp(32px,3.4vw,49px);letter-spacing:-.045em;line-height:1.18}
+.fpga-page .split-copy>p,.fpga-page .split-copy>div>p:not(.intro-lead){font-size:14px}
+.fpga-page .scope-panel{background:transparent;border:0;border-left:2px solid #a87b50;padding:4px 0 4px 22px;gap:25px;margin-top:34px;grid-template-columns:150px 1fr}
+.fpga-page .scope-panel p{font-size:13px}
+.fpga-page .headline-metrics{gap:0;margin-top:40px;padding:33px 0}
+.fpga-page .headline-metrics>div{padding:0 30px;min-width:0}
+.fpga-page .headline-metrics>div:first-child{padding-left:0}
+.fpga-page .headline-metrics strong{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:68px;font-weight:300;letter-spacing:-.045em;line-height:1.1}
+.fpga-page .headline-metrics strong span{font-size:19px;letter-spacing:0;white-space:nowrap}
+.fpga-page .headline-metrics p{font-size:14px;line-height:1.6;margin-top:16px}
+.fpga-page .headline-metrics small{font-size:10px}
+.fpga-page .fineprint{font-size:11px;line-height:1.8}
+.fpga-page #hardware{padding-bottom:88px}
+.fpga-page .evidence-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:37px;border:1px solid #34373b;background:#12171b}
+.fpga-page .evidence-tabs button{padding:19px 12px;font-size:12px;text-align:left;border:0;border-right:1px solid #34373b;position:relative}
+.fpga-page .evidence-tabs button:last-child{border-right:0}
+.fpga-page .evidence-tabs button::before{content:"01";font:10px var(--mono);color:#727e85;margin-right:13px}
+.fpga-page .evidence-tabs button:nth-child(2)::before{content:"02"}.fpga-page .evidence-tabs button:nth-child(3)::before{content:"03"}.fpga-page .evidence-tabs button:nth-child(4)::before{content:"04"}
+.fpga-page .evidence-tabs button.selected{background:#252019;color:var(--accent);box-shadow:inset 0 -2px var(--accent)}
+.fpga-page .evidence-tabs button.selected::before{color:var(--accent)}
+.fpga-page .evidence-view{grid-template-columns:1.7fr 1fr;border-color:#34373b;background:#0e1317}
+.fpga-page .evidence-view figure{padding:30px}
+.fpga-page .evidence-image{height:400px;background:#080b0e;border:0}
+.fpga-page .evidence-image img{width:auto;height:auto;max-height:400px;max-width:100%}
+.fpga-page .evidence-view figcaption{font-size:11px;line-height:1.8;margin-top:19px}
+.fpga-page .evidence-view aside{background:transparent;border-color:#34373b;padding:39px 32px;display:flex;flex-direction:column;justify-content:center}
+.fpga-page .evidence-view h3{font-size:29px;line-height:1.2;margin:24px 0 22px}
+.fpga-page .evidence-view aside>p{font-size:14px;line-height:1.85}
+.fpga-page .evidence-view .evidence-status{font-size:10px;margin-top:21px}
+.fpga-page .evidence-view aside .fineprint{font-size:10px;margin-top:20px}
+.fpga-page .pipeline-section{background:#11161b}
+.fpga-page .flow-buttons{gap:0;position:relative;border:1px solid #3a3b3e;margin-top:40px;margin-bottom:0}
+.fpga-page .flow-step{border:0;border-right:1px solid #3a3b3e;padding:20px 16px;background:transparent;min-height:125px}
+.fpga-page .flow-step:last-child{border-right:0}
+.fpga-page .flow-step small{margin-bottom:14px;font-size:10px}
+.fpga-page .flow-step strong{font-size:16px;line-height:1.4}
+.fpga-page .flow-step>span{font-size:9px;margin-top:9px;line-height:1.5}
+.fpga-page .flow-step.selected{background:#282017;box-shadow:inset 0 -2px var(--accent)}
+.fpga-page .flow-step:hover{background:#1b1d1e}
+.fpga-page .stage-detail{min-height:365px;padding:38px;gap:8%;border-top:0;border-color:#3a3b3e;background:#0d1217;grid-template-columns:1fr 1fr;align-items:center}
+.fpga-page .stage-code{font-size:11px}
+.fpga-page .stage-detail h3{max-width:450px;font-size:30px;line-height:1.2}
+.fpga-page .stage-detail p{font-size:14px;line-height:1.85}
+.fpga-page .stage-tags span,.fpga-page .skill-tags span{font-size:10px;padding:6px 9px;border-color:#3a4248}
+.fpga-page .signal-diagram{height:290px;min-height:290px;max-height:none;padding:0;border-top:0;position:relative;font-family:var(--sans)}
+.fpga-page .stage-photo{width:100%;height:230px;display:flex;align-items:center;justify-content:center;background:#070b0f;overflow:hidden}
+.fpga-page .stage-photo img{max-width:100%;max-height:100%;object-fit:contain;width:auto;height:auto}
+.fpga-page .stage-image-note{font:10px/1.8 var(--mono);color:#8c9ca7;margin:15px 0 0;text-align:center}
+.fpga-page .pixel-bus{display:grid;grid-template-columns:1fr;gap:16px;width:100%;max-width:350px;text-align:left}
+.fpga-page .pixel-bus .bus-label{font:10px/1.7 var(--mono);color:#a8bac6;letter-spacing:.02em}
+.fpga-page .pixel-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
+.fpga-page .pixel-pair>div{border:1px solid #567082;background:#152432;padding:18px 13px}
+.fpga-page .pixel-pair strong{display:block;color:#bdd7e9;font:12px var(--mono);margin-bottom:12px}
+.fpga-page .rgb-values{display:flex;gap:6px}
+.fpga-page .rgb-values i{display:block;flex:1;text-align:center;padding:9px 3px;font:10px var(--mono);font-style:normal;background:#8c444d;color:#ffe4e6}
+.fpga-page .rgb-values i:nth-child(2){background:#376e5f;color:#d8fff3}.fpga-page .rgb-values i:nth-child(3){background:#426a99;color:#e1edff}
+.fpga-page .bus-end{padding:15px 12px;border-top:1px solid #52616d;border-bottom:1px solid #52616d;text-align:center;color:var(--accent);font:12px/1.7 var(--mono)}
+.fpga-page .buffer-diagram{width:100%;max-width:390px;display:flex;align-items:center;justify-content:space-between;gap:12px;font:12px/1.6 var(--mono);color:#b9cad4}
+.fpga-page .buffer-end{font:10px/1.8 var(--mono);color:#98a9b4;text-align:center;max-width:85px}
+.fpga-page .memory-stack{display:grid;gap:5px;flex:1;max-width:155px}
+.fpga-page .memory-stack div{height:33px;border:1px solid #a27a51;display:flex;align-items:center;justify-content:center;background:#302519;color:var(--accent);font:10px var(--mono)}
+.fpga-page .memory-stack div:nth-child(2){opacity:.72}.fpga-page .memory-stack div:nth-child(3){opacity:.42}
+.fpga-page .memory-arrow{color:var(--accent);font-size:18px}
+.fpga-page .geometry-diagram{display:flex;justify-content:space-evenly;align-items:center;width:100%;gap:13px}
+.fpga-page .geometry-cell{display:flex;flex-direction:column;align-items:center;gap:20px}
+.fpga-page .geometry-box{border:1px dashed #647687;padding:8px;width:80px;height:100px;display:flex;align-items:center;justify-content:center;position:relative}
+.fpga-page .geometry-box i{display:block;background:#d3ac7b88;border:1px solid #f2bb83;width:58px;height:58px}
+.fpga-page .geometry-cell:nth-child(2) i{border-radius:50% / 18%;height:78px}.fpga-page .geometry-cell:nth-child(3) i{width:0;height:0;background:none;border-left:30px solid transparent;border-right:30px solid transparent;border-top:0;border-bottom:78px solid #d3ac7b88}
+.fpga-page .geometry-cell span{font:10px/1.5 var(--mono);color:#b1c0cb;text-align:center}
+.fpga-page .decision-layout{gap:8%;grid-template-columns:1fr 1fr}
+.fpga-page .decision-layout>.skill-tags{margin-top:30px}
+.fpga-page .decision-list article{padding:29px 0;gap:22px}
+.fpga-page .decision-list h3{font-size:23px;line-height:1.3}
+.fpga-page .decision-list p{font-size:14px;line-height:1.85}
+.fpga-page .resource-layout{gap:8%;grid-template-columns:1fr 1fr}
+.fpga-page .resource-chart{padding-top:6px}
+.fpga-page .resource-row{margin-bottom:27px}
+.fpga-page .resource-row>div:first-child{font-size:14px;margin-bottom:12px;gap:15px}
+.fpga-page .resource-row small{font-size:10px;margin-top:7px;display:block}
+.fpga-page .resource-track{height:6px;background:#242c33}
+.fpga-page .resource-track i{background:linear-gradient(90deg,#b18152,#f2bb83)}
+.fpga-page .resource-layout p{font-size:14px}
+.fpga-page .resource-layout p.fineprint{font-size:11px}
+.fpga-page .evidence-details{margin-top:33px}
+.fpga-page .evidence-details summary{font-size:13px}
+.fpga-page .evidence-details p{font-size:12px}
+html[lang=zh-CN] .fpga-page .hero-copy h1{font-size:clamp(43px,4.7vw,70px);line-height:1.18;letter-spacing:-.035em}
+html[lang=zh-CN] .fpga-page h2{font-size:clamp(30px,3vw,44px);line-height:1.25;letter-spacing:-.02em}
+html[lang=zh-CN] .fpga-page .stage-detail h3,html[lang=zh-CN] .fpga-page .evidence-view h3{font-size:27px;line-height:1.4}
+@media(max-width:1100px){
+ .fpga-page .fpga-hero{gap:5%;min-height:650px}.fpga-page .hero-copy h1{font-size:clamp(48px,6.3vw,66px)}
+ .fpga-page .capture-choices{gap:7px}.fpga-page .capture-choices button{grid-template-columns:1fr;padding:7px;gap:7px}.fpga-page .capture-choices img{width:100%;height:46px}.fpga-page .capture-choices span{font-size:10px}
+ .fpga-page .evidence-view{grid-template-columns:1.45fr 1fr}.fpga-page .evidence-view figure{padding:22px}.fpga-page .evidence-image{height:330px}.fpga-page .evidence-image img{max-height:330px}.fpga-page .evidence-view aside{padding:26px}.fpga-page .evidence-view h3{font-size:25px}
+ .fpga-page .flow-step{padding:17px 10px}.fpga-page .flow-step strong{font-size:14px}.fpga-page .stage-detail{padding:28px;gap:6%}.fpga-page .stage-detail h3{font-size:27px}
+}
+@media(max-width:800px){
+ .fpga-page .site-header{height:auto;min-height:76px;flex-wrap:wrap;gap:10px 16px;padding-top:14px;padding-bottom:13px}.fpga-page .wordmark>span{font-size:11px}.fpga-page .wordmark small{display:none}.fpga-page .site-header nav{order:3;width:100%;justify-content:space-between;gap:12px;font-size:11px}.fpga-page .site-header nav a{display:block}.fpga-page .site-header .lang{margin-left:auto}
+ .fpga-page .fpga-hero{grid-template-columns:1fr;min-height:0;gap:34px;padding-top:28px;padding-bottom:45px}.fpga-page .hero-copy h1{font-size:clamp(54px,9vw,78px);max-width:630px}.fpga-page .hero-copy .back-link{margin-bottom:26px}.fpga-page .hero-copy .intro-lead{max-width:580px;font-size:20px}.fpga-page .hero-copy>p:not(.intro-lead){max-width:580px;font-size:14px}.fpga-page .award-line{margin:24px 0;max-width:580px}
+ .fpga-page .hardware-hero{margin:0}.fpga-page .hero-photo img{aspect-ratio:1.77}.fpga-page .capture-choices{gap:12px}.fpga-page .capture-choices button{grid-template-columns:55px 1fr;padding:8px;gap:10px}.fpga-page .capture-choices img{height:43px;width:55px}.fpga-page .capture-choices span{font-size:11px}
+ .fpga-page .section{padding-top:60px;padding-bottom:60px}.fpga-page .section-label{font-size:9px;gap:18px;line-height:1.6;margin-bottom:27px}.fpga-page .section-label>span:last-child{max-width:47%;text-align:right}
+ .fpga-page .split-copy,.fpga-page .decision-layout,.fpga-page .resource-layout{grid-template-columns:1fr;gap:26px}.fpga-page .split-copy h2,.fpga-page .decision-layout h2,.fpga-page .resource-layout h2{font-size:39px;line-height:1.2}.fpga-page .split-copy>p{max-width:620px}.fpga-page .scope-panel{grid-template-columns:1fr;gap:10px;padding:2px 0 2px 18px;margin-top:28px}
+ .fpga-page .headline-metrics{grid-template-columns:repeat(3,minmax(0,1fr));padding:25px 0;margin-top:30px}.fpga-page .headline-metrics>div,.fpga-page .headline-metrics>div:first-child{padding:0 16px;border-top:0;border-left:1px solid var(--line)}.fpga-page .headline-metrics>div:first-child{padding-left:0;border-left:0}.fpga-page .headline-metrics strong{font-size:52px;gap:8px}.fpga-page .headline-metrics strong span{font-size:16px}.fpga-page .headline-metrics p{font-size:12px;margin-top:12px}.fpga-page .headline-metrics small{font-size:9px}
+ .fpga-page .evidence-view{grid-template-columns:1fr}.fpga-page .evidence-view figure{padding:22px}.fpga-page .evidence-image{height:350px}.fpga-page .evidence-image img{max-height:350px}.fpga-page .evidence-view aside{padding:26px;border-left:0;border-top:1px solid var(--line)}.fpga-page .evidence-view h3{font-size:28px;margin:16px 0}.fpga-page .evidence-view aside>p{max-width:620px}
+ .fpga-page .flow-buttons{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:28px}.fpga-page .flow-step{padding:17px;min-height:115px}.fpga-page .flow-step:nth-child(3){border-right:0}.fpga-page .flow-step:nth-child(-n+3){border-bottom:1px solid #3a3b3e}.fpga-page .flow-step strong{font-size:16px}.fpga-page .flow-step>span{font-size:10px}
+ .fpga-page .stage-detail{grid-template-columns:1fr;gap:20px;padding:27px;min-height:0}.fpga-page .stage-detail h3{max-width:610px}.fpga-page .signal-diagram{height:280px;min-height:280px;border-top:1px solid #29353e;padding-top:20px}
+ .fpga-page .stage-photo{height:220px}.fpga-page .decision-list h3{font-size:23px}.fpga-page .decision-list article:first-child{border-top:1px solid var(--line);padding-top:27px}
+ html[lang=zh-CN] .fpga-page .hero-copy h1{font-size:clamp(43px,7vw,64px)}html[lang=zh-CN] .fpga-page h2{font-size:35px}
+}
+@media(max-width:480px){
+ .fpga-page .hero-copy h1{font-size:clamp(45px,11.6vw,57px)}.fpga-page .hero-copy .intro-lead{font-size:18px}.fpga-page .hero-copy>p:not(.intro-lead){font-size:13px}.fpga-page .hero-copy>.eyebrow{font-size:9px;letter-spacing:.04em}.fpga-page .actions{gap:17px}.fpga-page .action-primary{padding:11px 13px;gap:15px;font-size:11px}.fpga-page .underlined{font-size:11px}.fpga-page .award-line strong{font-size:13px}.fpga-page .award-line small{font-size:9px}
+ .fpga-page .instrument-label{font-size:9px}.fpga-page .hero-capture-caption{font-size:9px;gap:10px;padding:12px 0 15px}.fpga-page .capture-choices{gap:7px}.fpga-page .capture-choices button{display:flex;flex-direction:column;align-items:stretch;padding:6px;gap:6px}.fpga-page .capture-choices img{width:100%;height:48px}.fpga-page .capture-choices span{font-size:10px;text-align:center;line-height:1.5}
+ .fpga-page .technology-strip{font-size:9px;gap:10px 22px}.fpga-page .split-copy h2,.fpga-page .decision-layout h2,.fpga-page .resource-layout h2{font-size:32px}.fpga-page .split-copy .intro-lead{font-size:17px}.fpga-page .split-copy>div>p:not(.intro-lead),.fpga-page .split-copy>p{font-size:13px}
+ .fpga-page .headline-metrics>div{padding:0 12px}.fpga-page .headline-metrics strong{display:block;font-size:44px}.fpga-page .headline-metrics strong span{display:block;font-size:12px;margin-top:7px;line-height:1.6}.fpga-page .headline-metrics p{font-size:11px;margin-top:12px;line-height:1.6}.fpga-page .headline-metrics small{font-size:8px;line-height:1.6;display:block}.fpga-page .fineprint{font-size:10px}
+ .fpga-page .evidence-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.fpga-page .evidence-tabs button{padding:14px 11px;font-size:11px}.fpga-page .evidence-tabs button:nth-child(-n+2){border-bottom:1px solid var(--line)}.fpga-page .evidence-tabs button:nth-child(2){border-right:0}.fpga-page .evidence-tabs button::before{font-size:9px;margin-right:10px}.fpga-page .evidence-view figure{padding:15px}.fpga-page .evidence-image{height:245px}.fpga-page .evidence-image img{max-height:245px}.fpga-page .evidence-view figcaption{font-size:10px;gap:12px}.fpga-page .evidence-view aside{padding:22px}.fpga-page .evidence-view h3{font-size:25px}.fpga-page .evidence-view aside>p{font-size:13px}
+ .fpga-page .flow-step{padding:14px 10px;min-height:107px}.fpga-page .flow-step strong{font-size:13px}.fpga-page .flow-step>span{font-size:8px}.fpga-page .flow-step small{font-size:9px;margin-bottom:11px}.fpga-page .stage-detail{padding:22px;gap:10px}.fpga-page .stage-detail h3{font-size:26px;line-height:1.25}.fpga-page .stage-detail p{font-size:13px}.fpga-page .stage-tags span,.fpga-page .skill-tags span{font-size:9px}.fpga-page .geometry-box{width:63px;height:84px;padding:5px}.fpga-page .geometry-box i{width:48px;height:48px}.fpga-page .geometry-cell:nth-child(2) i{height:66px}.fpga-page .geometry-cell:nth-child(3) i{border-left-width:24px;border-right-width:24px;border-bottom-width:66px}.fpga-page .geometry-cell span{font-size:9px}
+ .fpga-page .decision-list h3{font-size:21px}.fpga-page .decision-list p{font-size:13px}.fpga-page .decision-list article{gap:15px}.fpga-page .resource-layout p{font-size:13px}
+ html[lang=zh-CN] .fpga-page .hero-copy h1{font-size:clamp(35px,9.2vw,44px);line-height:1.25}html[lang=zh-CN] .fpga-page h2{font-size:30px}html[lang=zh-CN] .fpga-page .stage-detail h3,html[lang=zh-CN] .fpga-page .evidence-view h3{font-size:24px}
+}
+@media(max-width:380px){.fpga-page .site-header nav{font-size:9px;gap:10px}}
+@media(prefers-reduced-motion:reduce){.fpga-page *{transition:none!important}}

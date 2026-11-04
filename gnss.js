@@ -1,8 +1,4 @@
 'use strict';
-const $=id=>document.getElementById(id);
-const translations=[...document.querySelectorAll('[data-zh]')].map(el=>({el,en:el.innerHTML,zh:el.dataset.zh}));
-let lang='en',task=0,panel=0,data=null,filtered=[],selected=0;
-const say=(en,zh)=>lang==='zh'?zh:en;
 const tasks=[
  {en:['01 / DATA & PHYSICS','Make the observations physically comparable.','Parse radiosonde profiles and integrate humidity and temperature to derive wet delay, weighted mean temperature and PWV. Convert geopotential, geometric and ellipsoidal heights with an EGM2008 geoid correction, retaining intermediate fields for inspection.','OUTPUT / Annual feature tables, physical targets and traceable height conversions.'],zh:['01 / 数据与物理','先让不同来源的数据在物理上可比。','解析探空垂直廓线，积分水汽压与温度，得到湿延迟、加权平均温度和 PWV。结合 EGM2008 大地水准面改正，在位势高、几何高和椭球高之间转换，并保留中间字段供核查。','产物 / 按年组织的特征表、物理标签与可追溯的高度转换。']},
  {en:['02 / MODEL ENGINEERING','Turn learners into a common training workflow.','Use configuration-driven training for tree models, neural networks and ensembles. Save model artifacts, preprocessing state, parameters and metrics. Holdout stacking trains its meta-learner on a separate subset of base-model predictions.','OUTPUT / Eight model families integrated, including FLAML learners, TabM and xRFM.'],zh:['02 / 模型工程','把不同模型组织进统一的训练流程。','通过配置驱动树模型、神经网络与集成模型训练，保存模型、预处理状态、参数与指标。Holdout stacking 在独立子集上生成基模型预测，再训练元学习器。','产物 / 接入八类模型，包括 FLAML 学习器、TabM 与 xRFM。']},
@@ -10,34 +6,41 @@ const tasks=[
  {en:['04 / DIAGNOSTICS','Connect statistical behavior to physical context.','Map residuals across the station network and use TreeSHAP to inspect the roles of delay, elevation, latitude and season. Treat the explanations as evidence about model behavior, then connect them to physical hypotheses.','OUTPUT / Spatial error atlas and feature-contribution analysis.'],zh:['04 / 诊断与解释','把统计表现放回物理背景。','将残差映射到全球站网，使用 TreeSHAP 检查延迟、高度、纬度与季节的作用。先用解释结果观察模型行为，再联系物理机制提出判断。','产物 / 空间误差图谱与特征贡献分析。']},
  {en:['05 / ENGINEERING EVALUATION','Measure the cost of a prediction.','Profile a saved model under single-thread CPU inference. Warm up before timing, report tail latency as well as the mean, and measure both model-file size and process memory.','OUTPUT / A latency and memory profile that makes deployment trade-offs concrete.'],zh:['05 / 工程评估','量化一次预测的运行成本。','在 CPU 单线程条件下测试已保存模型。预热后计时，同时记录平均延迟、尾延迟、模型文件大小与进程内存。','产物 / 可用于分析部署取舍的延迟和内存画像。']}
 ];
+const $ = id => document.getElementById(id);
+const translations = [...document.querySelectorAll('[data-zh]')].map(el => ({el,en:el.innerHTML,zh:el.dataset.zh}));
+let lang='en', task=0, selectedModel=1, selectedFeature='ZTD', data=null, atlas=null, globe=null;
+const say=(en,zh)=>lang==='zh'?zh:en;
 function renderTask(){const t=tasks[task][lang];['kicker','title','body','output'].forEach((s,i)=>$('task-'+s).textContent=t[i]);document.querySelectorAll('[data-task]').forEach(b=>{const on=+b.dataset.task===task;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)})}
-function setPanel(n){panel=n;document.querySelectorAll('[data-panel]').forEach(b=>{const on=+b.dataset.panel===n;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)});document.querySelectorAll('.bench-panel').forEach(p=>p.hidden=+p.dataset.view!==n)}
-function setLanguage(value){lang=value;document.documentElement.lang=value==='zh'?'zh-CN':'en';translations.forEach(x=>x.el.innerHTML=x[value]);$('gnss-language').textContent=value==='zh'?'EN ↗':'中文 ↗';$('gnss-language').setAttribute('aria-label',value==='zh'?'Switch to English':'Switch to Chinese');try{localStorage.setItem('optics-portfolio-language',value)}catch{}renderTask();if(data)renderData()}
-function color(v){const t=Math.max(0,Math.min(1,v/5));const a=[76,142,194],b=[247,210,141];return `rgb(${a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(',')})`}
-function stationText(s){return `${s.lat.toFixed(2)}°, ${s.lon.toFixed(2)}° · h ${s.h.toFixed(0)} m · n=${s.n.toLocaleString()} · RMSE ${s.rmse.toFixed(2)} mm · Bias ${s.bias.toFixed(2)} mm`}
-function selectStation(i){selected=(i+filtered.length)%filtered.length;const s=filtered[selected];if(!s)return;$('station-detail').textContent=say('SELECTED STATION GROUP / ','所选站点组 / ')+stationText(s);const svg=$('station-map');svg.querySelectorAll('.selected-point').forEach(n=>n.classList.remove('selected-point'));const point=svg.querySelector(`[data-point="${selected}"]`);if(point)point.classList.add('selected-point')}
-function renderMap(){
- const region=$('region').value;
- filtered=data.stations.filter(s=>region==='all'||region==='tropics'&&Math.abs(s.lat)<23.5||region==='north'&&s.lat>=23.5&&s.lat<66.5||region==='south'&&s.lat<=-23.5&&s.lat>-66.5||region==='polar'&&Math.abs(s.lat)>=66.5);
- let out='<rect x="0" y="0" width="960" height="480" fill="#0b1722"/>';
- for(let lon=-180;lon<=180;lon+=60){const x=(lon+180)/360*900+30;out+=`<path d="M${x} 25V445" stroke="#8acbff" opacity=".12"/><text x="${x}" y="469" fill="#8099ae" font-size="10" text-anchor="middle">${lon}°</text>`}
- for(let lat=-60;lat<=60;lat+=30){const y=(90-lat)/180*420+25;out+=`<path d="M30 ${y}H930" stroke="#8acbff" opacity="${lat===0?'.3':'.12'}"/><text x="28" y="${y-5}" fill="#8099ae" font-size="10">${lat}°</text>`}
- filtered.forEach((s,i)=>{const x=(s.lon+180)/360*900+30,y=(90-s.lat)/180*420+25;out+=`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="2.7" fill="${color(s.rmse)}" fill-opacity="1" data-point="${i}"><title>${stationText(s)}</title></circle>`});
- $('station-map').innerHTML=out;
- const n=filtered.reduce((n,s)=>n+s.n,0),rmse=Math.sqrt(filtered.reduce((v,s)=>v+s.n*s.rmse*s.rmse,0)/n),bias=filtered.reduce((v,s)=>v+s.n*s.bias,0)/n;
- $('map-stats').innerHTML=`<div><strong>${filtered.length.toLocaleString()}</strong><span>${say('station groups','站点组')}</span></div><div><strong>${rmse.toFixed(2)} <small>mm</small></strong><span>${say('observation-weighted RMSE','按观测加权 RMSE')}</span></div><div><strong>${bias>=0?'+':''}${bias.toFixed(2)} <small>mm</small></strong><span>${say('bias · ','偏差 · ')}n=${n.toLocaleString()}</span></div>`;
- selectStation(Math.min(selected,filtered.length-1));
+const models=[
+ {en:['GPT3 / empirical atmosphere','Provides meteorological quantities from an empirical atmospheric model. Its RMSE here is 2.41 mm.'],zh:['GPT3 / 经验气象模型','通过经验大气模型提供气象量。本组文稿评估中的 RMSE 为 2.41 mm。']},
+ {en:['ML / direct retrieval','Uses ZTD, latitude, longitude, height, year and day of year. No surface pressure or temperature observations are needed at inference.'],zh:['ML / 直接反演','输入总延迟、经纬度、高度、年份和年积日，推理时无需地面气压、温度观测。']},
+ {en:['ERA5 / reanalysis reference','Uses meteorological reanalysis information. The lower error comes with a different input dependency from the six-feature ML route.'],zh:['ERA5 / 再分析参考','使用气象再分析信息。它的误差更低，但所依赖的输入与六特征机器学习路径不同。']}
+];
+function renderComparison(){const m=models[selectedModel][lang];$('comparison-detail').innerHTML=`<span>${m[0]}</span><p>${m[1]}</p>`;document.querySelectorAll('[data-model]').forEach(b=>{const on=+b.dataset.model===selectedModel;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)})}
+const featureInfo={
+ ZTD:{en:['SIGNAL DELAY','The primary water-vapor clue.','Total zenith delay contains the wet-delay signal. Its dominant attribution is consistent with being the direct physical observation used by the retrieval.'],zh:['信号延迟','最直接的水汽线索。','天顶总延迟包含湿延迟信号。它在解释结果中占主导，与它作为反演的直接物理观测量相一致。']},
+ h:{en:['ELEVATION','The height of the atmospheric column.','Elevation changes the atmospheric column above a receiver and the hydrostatic background. This gives height both physical meaning and substantial predictive influence.'],zh:['高度','接收机上方，有多少大气。','高度改变接收机上方的大气柱和静力延迟背景，因此既具有明确的物理意义，也具有显著的预测作用。']},
+ lat:{en:['LATITUDE','Large-scale atmospheric context.','Latitude encodes climatic differences across the globe. The model can use it to help distinguish the water-vapor regimes behind similar total delays.'],zh:['纬度','大尺度的大气背景。','纬度包含全球气候差异的信息，帮助模型区分相似总延迟背后可能不同的水汽分布背景。']},
+ doy:{en:['DAY OF YEAR','A signature of the seasonal cycle.','Day of year provides seasonal context. Its attribution reflects how the trained model uses the annual cycle alongside delay and location.'],zh:['年积日','季节变化的线索。','年积日提供季节背景。其归因值反映训练后的模型如何结合年周期、信号延迟与地理位置来进行预测。']},
+ lon:{en:['LONGITUDE','Regional structure.','Longitude helps represent geographic variation not captured by latitude alone. Its importance is conditional on the other inputs and this training distribution.'],zh:['经度','更具体的区域差异。','经度补充仅靠纬度无法表达的地理差异。其重要性依赖于其他输入以及当前训练分布。']},
+ year:{en:['YEAR','The long-term time coordinate.','Year is available to the model, but has the smallest average attribution in this RF sample. Low attribution does not establish long-term invariance.'],zh:['年份','长期时间坐标。','年份提供长期时间信息，但在这组随机森林样本中，其平均归因值最小。这并不意味着长期变化可以被忽略。']}
+};
+function renderFeature(){if(!data)return;const f=featureInfo[selectedFeature][lang],v=data.shap.find(s=>s.feature===selectedFeature).value;$('feature-kicker').textContent=selectedFeature+' / '+f[0];$('feature-title').textContent=f[1];$('feature-body').textContent=f[2];$('feature-number').textContent=v.toFixed(3);document.querySelectorAll('[data-feature]').forEach(b=>{const on=b.dataset.feature===selectedFeature;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)})}
+function renderData(){
+ if(!data)return;
+ $('shap-chart').innerHTML=[...data.shap].sort((a,b)=>b.value-a.value).map(s=>`<button class="feature-row" data-feature="${s.feature}" aria-pressed="${s.feature===selectedFeature}"><span>${s.feature}</span><span class="feature-track"><i style="--bar:${s.value/9*100}%"></i></span><strong>${s.value.toFixed(3)}</strong><b>↗</b></button>`).join('');
+ $('shap-chart').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selectedFeature=b.dataset.feature;renderFeature()}));renderFeature();
+ const r=data.runtime;
+ $('runtime-metrics').innerHTML=[[r.mean.toFixed(2),'ms',say('mean latency','平均延迟')],[r.p99.toFixed(2),'ms',say('P99 latency','P99 延迟')],[r.peakMiB.toFixed(1),'MiB',say('peak process memory','进程峰值内存')]].map(([v,u,l])=>`<div class="runtime-stat"><strong class="quantity"><span>${v}</span><small>${u}</small></strong><span>${l}</span></div>`).join('');
+ $('latency-chart').innerHTML=[['P50',r.p50],['P90',r.p90],['P99',r.p99]].map(([n,v])=>`<div class="latency-row"><span>${n}</span><div><i style="--bar:${v/9*100}%"></i></div><strong>${v.toFixed(2)}</strong></div>`).join('');
+ $('artifact-size').textContent=r.artifactMiB.toFixed(1)+' MiB';
 }
-function renderData(){renderMap();$('shap-chart').innerHTML=[...data.shap].sort((a,b)=>b.value-a.value).map(s=>`<div class="shap-row"><strong>${s.feature}</strong><div class="shap-track"><i style="width:${s.value/9*100}%"></i></div><span>${s.value.toFixed(3)}</span></div>`).join('');const r=data.runtime;
- $('runtime-metrics').innerHTML=[[r.mean.toFixed(2),'ms',say('mean latency','平均延迟')],[r.p99.toFixed(2),'ms',say('P99 latency','P99 延迟')],[r.peakMiB.toFixed(1),'MiB',say('peak process RSS','进程峰值 RSS')]].map(([v,u,l])=>`<div class="runtime-stat"><strong>${v}<small>${u}</small></strong><span>${l}</span></div>`).join('');
- $('runtime-bars').innerHTML=[[say('Model artifact','模型文件'),r.artifactMiB],[say('Peak process memory','进程峰值内存'),r.peakMiB]].map(([name,v])=>`<div class="bar-row"><div><strong>${name}</strong><span>${v.toFixed(1)} MiB</span></div><div class="bar-track"><i style="width:${v/512*100}%"></i></div></div>`).join('');
-}
+function setLanguage(value){lang=value;document.documentElement.lang=lang==='zh'?'zh-CN':'en';translations.forEach(x=>x.el.innerHTML=x[lang]);$('gnss-language').textContent=lang==='zh'?'EN ↗':'中文 ↗';$('gnss-language').setAttribute('aria-label',lang==='zh'?'Switch to English':'Switch to Chinese');try{localStorage.setItem('optics-portfolio-language',lang)}catch{}renderTask();renderComparison();renderData();atlas?.setLanguage(lang);globe?.setLanguage(lang)}
 $('gnss-language').addEventListener('click',()=>setLanguage(lang==='en'?'zh':'en'));
 document.querySelectorAll('[data-task]').forEach(b=>b.addEventListener('click',()=>{task=+b.dataset.task;renderTask()}));
-document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>setPanel(+b.dataset.panel)));
-$('region').addEventListener('change',()=>{selected=0;renderMap()});
-$('station-map').setAttribute('tabindex','0');$('station-map').setAttribute('aria-label','Station RMSE map. Select a latitude band above. Use left and right arrow keys to inspect individual station groups.');
-$('station-map').addEventListener('click',e=>{const point=e.target.closest('[data-point]');if(point)selectStation(+point.dataset.point)});
-$('station-map').addEventListener('keydown',e=>{if(data&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();selectStation(selected+(e.key==='ArrowRight'?1:-1))}});
+document.querySelectorAll('[data-model]').forEach(b=>b.addEventListener('click',()=>{selectedModel=+b.dataset.model;renderComparison()}));
+document.querySelectorAll('[data-diagnostic]').forEach(b=>b.addEventListener('click',()=>{const name=b.dataset.diagnostic;document.querySelectorAll('[data-diagnostic]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on)});$('shap-view').hidden=name!=='shap';$('runtime-view').hidden=name!=='runtime'}));
 let stored='en';try{stored=localStorage.getItem('optics-portfolio-language')||'en'}catch{}setLanguage(stored==='zh'?'zh':'en');
-fetch('gnss-data.json').then(r=>{if(!r.ok)throw Error('Data unavailable');return r.json()}).then(d=>{data=d;$('gnss-loading').hidden=true;renderData()}).catch(()=>{$('gnss-loading').hidden=true;$('gnss-error').hidden=false});
+Promise.all(['gnss-data.json','gnss-land.json'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Research asset unavailable');return r.json()}))).then(([d,land])=>{data=d;renderData();atlas=window.GNSSAtlas.create({root:$('atlas-root'),data:d,land,lang});globe=window.GNSSAtlas.globe({root:$('hero-globe'),data:d,land,lang})}).catch(()=>{$('atlas-root').innerHTML=`<p class="loading-note">${say('The atlas could not load. Please reload the page.','图谱暂未加载，请刷新页面重试。')}</p>`});
+const chapters=[...document.querySelectorAll('.chapter-nav a')];
+const sectionObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)chapters.forEach(a=>a.classList.toggle('active',a.hash==='#'+entry.target.id))})},{rootMargin:'-20% 0px -65% 0px'});chapters.forEach(a=>{const s=document.querySelector(a.hash);if(s)sectionObserver.observe(s)});

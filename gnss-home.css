@@ -1,0 +1,26 @@
+/* One horizontal feature makes the atmospheric project a separate chapter. */
+.gnss-feature {
+  --accent: #8acbff;
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin-top: 0;
+  border: 1px solid #304657;
+  background: linear-gradient(118deg, #101e2a, #0d151d 62%, #101c27);
+  transition: border-color .2s, transform .2s;
+  overflow: hidden;
+}
+.gnss-feature:hover { border-color: #8acbff; transform: translateY(-4px); }
+.gnss-feature .feature-art { min-width: 0; display: flex; align-items: center; background: radial-gradient(ellipse, #1f425c33, transparent 72%); border-right: 1px solid #293e4e; padding: 20px 0; }
+.gnss-feature .feature-art svg { display: block; width: 100%; height: auto; }
+.gnss-feature .feature-copy { display: flex; flex-direction: column; min-width: 0; padding: 34px 38px 0; }
+.gnss-feature .feature-copy h2 { font-size: 40px; margin: 20px 0; line-height: 1.15; max-width: 470px; }
+.gnss-feature .feature-copy > p { font-size: 14px; max-width: 480px; }
+.gnss-feature .project-facts { gap: 35px; font-size: 29px; margin-top: 5px; margin-bottom: 28px; }
+.gnss-feature .project-facts small { font-size: 9px; }
+.gnss-feature .card-bottom { border-top-color: #304250; }
+.gnss-feature .eyebrow { font-size: 9px; }
+
+
+@media(max-width:760px){.gnss-feature{grid-template-columns:1fr}.gnss-feature .feature-art{border-right:0;border-bottom:1px solid #293e4e;max-height:280px}.gnss-feature .feature-art svg{height:260px}.gnss-feature .feature-copy{padding:28px 24px 0}.gnss-feature .feature-copy h2{font-size:32px}.gnss-feature .project-facts{gap:22px;font-size:26px}}
